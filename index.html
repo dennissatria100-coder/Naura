@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Untuk Naura Yuan Ramandhita — Ultra Luxury</title>
+  <!-- Ultra Luxury Romantic Page
+       - Cara pakai: simpan sebagai index.html
+       - Ganti nilai di bagian // --- CUSTOMIZE --- untuk menyesuaikan nama, foto, tanggal, dan musik
+       - File ini memakai hanya HTML/CSS/JS vanilla (tanpa CDN selain Google Fonts) sehingga mudah di-deploy
+  -->
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --rose:#f06292;
+      --gold:#d6b25e;
+      --ivory:#fffaf6;
+      --muted:#5a5460;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Montserrat,system-ui,-apple-system,'Segoe UI',Roboto,Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(240,220,226,0.18), transparent), linear-gradient(180deg,#fffaf6 0%, #fff 50%);
+      color:var(--muted);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
+    }
+
+    /* Top overlay video-ish shimmer (optional background video commented) */
+    .hero{
+      min-height:68vh;
+      display:grid;
+      align-items:center;
+      padding:48px 24px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* soft bokeh layers */
+    .bokeh{
+      position:absolute; inset:0; pointer-events:none;
+    }
+    .bokeh::before, .bokeh::after{
+      content:""; position:absolute; border-radius:50%; filter:blur(60px); opacity:0.55;
+    }
+    .bokeh::before{ width:520px; height:520px; right:-80px; top:-80px; background:linear-gradient(120deg, rgba(246,182,193,0.42), rgba(214,178,94,0.18)); }
+    .bokeh::after{ width:420px; height:420px; left:-60px; bottom:-60px; background:linear-gradient(120deg, rgba(250,227,233,0.42), rgba(214,178,94,0.12)); }
+
+    .container{max-width:1100px; margin:0 auto;}
+    .nav{display:flex; justify-content:space-between; align-items:center; gap:12px;}
+    .brand{font-family:'Playfair Display', serif; font-size:28px; color:var(--rose); letter-spacing:0.2px}
+    .nav-actions{display:flex; gap:10px}
+    .button{background:linear-gradient(135deg,var(--rose), #f7a6c4); color:white; border:none; padding:10px 18px; border-radius:28px; cursor:pointer; box-shadow:0 8px 30px rgba(240,110,145,0.12); font-weight:600}
+    .ghost{background:transparent; border:1px solid rgba(90,84,96,0.08); padding:8px 14px; border-radius:14px}
+
+    .hero-grid{display:grid; grid-template-columns:1fr 420px; gap:36px; align-items:center}
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0.55)); padding:28px; border-radius:20px; box-shadow:0 10px 35px rgba(70,45,60,0.08); backdrop-filter: blur(8px)}
+
+    h1{font-family:'Playfair Display', serif; margin:0; color:var(--rose); font-size:44px; line-height:1.02}
+    p.lead{margin-top:14px; font-size:16px; color:#6f6570}
+
+    /* Card right: portrait with frame */
+    .portrait{border-radius:18px; overflow:hidden; border:6px solid rgba(255,255,255,0.6); box-shadow:0 14px 40px rgba(50,20,40,0.12);}
+    .portrait img{width:100%; height:100%; display:block; object-fit:cover}
+
+    /* Floating hearts */
+    .heart{position:absolute; width:16px; height:16px; transform:translate(-50%,-50%); opacity:0.95}
+
+    /* Sections */
+    section{padding:60px 20px}
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:22px}
+    .lux-card{background:white; padding:22px; border-radius:16px; box-shadow:0 12px 30px rgba(40,20,30,0.06);}
+
+    /* Gallery */
+    .gallery-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+    .gallery-grid img{width:100%; border-radius:12px; height:160px; object-fit:cover; transition:transform .45s cubic-bezier(.2,.9,.25,1);}
+    .gallery-grid img:hover{transform:translateY(-6px) scale(1.03)}
+
+    /* Timeline elegant */
+    .timeline{position:relative; padding-left:20px}
+    .timeline::before{content:""; position:absolute; left:8px; top:0; bottom:0; width:2px; background:linear-gradient(180deg,var(--rose), rgba(214,178,94,0.6)); border-radius:2px}
+    .event{margin-bottom:20px; position:relative}
+    .event .dot{position:absolute; left:-6px; top:3px; width:12px; height:12px; border-radius:50%; background:var(--gold); box-shadow:0 2px 8px rgba(214,178,94,0.2)}
+    .event time{font-size:13px; color:#a48f7e}
+    .event h4{margin:6px 0 0 0}
+    .event p{margin:6px 0 0 0; color:#6f6570}
+
+    /* Floating CTA */
+    .floating-cta{position:fixed; right:24px; bottom:24px; z-index:1200}
+
+    /* Modal slideshow */
+    .modal{position:fixed; inset:0; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; visibility:hidden; opacity:0; transition:opacity .25s}
+    .modal.open{visibility:visible; opacity:1}
+    .modal .slide{width:min(1100px,95%); max-height:86vh; background:linear-gradient(180deg,#fff,#fffaf6); border-radius:14px; padding:18px; overflow:auto}
+
+    /* Footer */
+    footer{padding:40px 20px; text-align:center; color:#7a6d78}
+
+    /* Responsive */
+    @media (max-width:980px){ .hero-grid{grid-template-columns:1fr} .portrait{height:360px} .grid-3{grid-template-columns:1fr} .gallery-grid{grid-template-columns:repeat(2,1fr)} }
+  </style>
+</head>
+<body>
+
+<!-- --- CUSTOMIZE: edit these variables --- -->
+<script>
+  const CUSTOM = {
+    partnerName: "Naura Yuan Ramandhita",
+    yourName: "Aku",
+    anniversary: "27-08-2009",
+    // Replace these image urls with your own photos (3-8 images recommended)
+    images: [
+      'naura.jpeg',
+      'fotbar1.jpeg',
+      'fotbar2.jpeg',
+      'fotbar3.jpeg',
+      'fotbar4.jpeg',
+      'fotbar5.jpeg',
+      'fotbar6.jpeg',
+      'fotbar7.jpeg'
+    ],
+    // Spotify playlist or YouTube embed URL (use embed link)
+    musicEmbed: 'https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M'
+  };
+</script>
+
+<header class="container">
+  <nav class="nav">
+    <div class="brand">❤ Untuk <span id="partnerNameTop">Sayangku</span></div>
+    <div class="nav-actions">
+      <button class="ghost" onclick="openSlideshow()">Lihat Galeri</button>
+      <button class="button" onclick="openLetter()">Baca Surat</button>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="bokeh" aria-hidden="true"></div>
+  <div class="container hero-grid">
+    <div class="hero-card">
+      <h1 id="heroTitle">Untukmu, <span id="partnerName">Naura Yuan Ramandhita</span></h1>
+      <p class="lead" id="heroLead">Kamu adalah Bestie terbaiku selama ini.</p>
+
+      <div style="margin-top:18px; display:flex; gap:12px; align-items:center">
+        <div style="display:flex; flex-direction:column; gap:8px">
+          <small style="color:#bfaea8">Ulang Tahunmu</small>
+          <strong id="annDate">27-08-2009</strong>
+        </div>
+        <div style="flex:1"></div>
+        <div style="display:flex; gap:8px">
+          <button class="button" onclick="copyLink()">Bagikan</button>
+          <button class="ghost" onclick="downloadCard()">Unduh Kartu</button>
+        </div>
+      </div>
+    </div>
+
+    <aside class="portrait" aria-hidden="true">
+      <img id="portraitImg" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=1200&q=80" alt="portrait" />
+    </aside>
+  </div>
+
+  <!-- floating decorative hearts -->
+  <svg class="heart" style="left:12%; top:30%" viewBox="0 0 24 24"><path fill="#f06292" d="M12 21s-7.2-4.8-9.6-7.2C-1 8.8 4.8 2 12 7.4 19.2 2 25 8.8 21.6 13.8 19.2 16.2 12 21 12 21z"/></svg>
+  <svg class="heart" style="left:82%; top:20%" viewBox="0 0 24 24"><path fill="#ffd28a" d="M12 21s-7.2-4.8-9.6-7.2C-1 8.8 4.8 2 12 7.4 19.2 2 25 8.8 21.6 13.8 19.2 16.2 12 21 12 21z"/></svg>
+
+</section>
+
+<section>
+  <div class="container">
+    <div class="grid-3">
+      <div class="lux-card">
+        <h4>Surat Cinta</h4>
+        <p id="miniLetter" style="color:#6f6570; margin-top:10px">Setiap detik bersamamu akan selalu ku ingat dihidupku. Terima kasih telah menjadi segalanya.</p>
+        <div style="margin-top:14px; display:flex; gap:10px">
+          <button class="button" onclick="openLetter()">Baca Lengkap</button>
+          <button class="ghost" onclick="copyLetter()">Salin</button>
+        </div>
+      </div>
+
+      <div class="lux-card">
+        <h4>Playlist Kita</h4>
+        <p style="color:#6f6570; margin-top:10px">Musik yang selalu mengingatkanku padamu.</p>
+        <div style="margin-top:12px; border-radius:12px; overflow:hidden">
+          <iframe id="musicEmbed" src="" width="100%" height="120" frameborder="0" allow="autoplay; encrypted-media" style="border:0"></iframe>
+        </div>
+      </div>
+
+      <div class="lux-card">
+        <h4>Harapanku </h4>
+        <p style="color:#6f6570; margin-top:10px">kita bisa menjadi  bestie selama:</p>
+        <div style="margin-top:12px; font-size:22px; color:var(--rose); font-weight:700" id="countdownLarge">-</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,250,246,0.9))">
+  <div class="container">
+    <h3 style="font-family:'Playfair Display', serif; color:var(--rose)">Galeri Kenangan</h3>
+    <div style="height:18px"></div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h3 style="font-family:'Playfair Display', serif; color:var(--rose)">Momen yang sepele tapi selalu ku ingat</h3>
+    <div style="height:12px"></div>
+    <div class="timeline">
+      <div  class="event"><span class="dot"></span>1<time></time><h4> Pertama Bertemu</h4><p>Kita bertemu di kafe kecil, senyummu yang membuatku tetap ingat hari itu.</p></div>
+      <div  class="event"><span class="dot"></span>.<time></time><h4> UKL Lomba Bakorwil</h4><p>Dimana saat kamu belum mengenalku kamu memberi say babai padaku.</p></div>
+      <div  class="event"><span class="dot"></span>.<time></time><h4> Lomba Bakorwil</h4><p>Aku terlalu terngiang ngiang padamu hingga fokusku hilang lalu dimarahin bang nuel.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Floating call-to-action -->
+<div class="floating-cta">
+  <button class="button" onclick="openSlideshow()">Buka Galeri</button>
+</div>
+
+<!-- Modal Slideshow -->
+<div id="modal" class="modal" onclick="closeSlideshow(event)">
+  <div class="slide" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+      <h3 style="margin:0">Galeri</h3>
+      <div style="display:flex; gap:8px"><button class="ghost" onclick="prevSlide()">Prev</button><button class="ghost" onclick="nextSlide()">Next</button><button class="ghost" onclick="closeSlideshow(event)">Tutup</button></div>
+    </div>
+    <div id="modalContent" style="margin-top:12px"></div>
+  </div>
+</div>
+
+<footer>
+  Dibuat dengan cinta — <span id="footerBy">Aku</span> untuk <span id="footerFor">Sayangku</span> · Semua istimewa romantis 💕
+</footer>
+
+<script>
+  // Initialize content from CUSTOM
+  document.getElementById('partnerName').innerText = CUSTOM.partnerName;
+  document.getElementById('partnerNameTop').innerText = CUSTOM.partnerName;
+  document.getElementById('annDate').innerText = CUSTOM.anniversary;
+  document.getElementById('heroLead').innerText = `Untuk ${CUSTOM.partnerName}, setiap momen bersamamu adalah kisah yang paling kusayang.`;
+  document.getElementById('miniLetter').innerText = `Untuk ${CUSTOM.partnerName},\n\nSetiap detik bersamamu terasa seperti lagu yang indah. Terima kasih telah menjadi rumahku.`;
+  document.getElementById('footerBy').innerText = CUSTOM.yourName;
+  document.getElementById('footerFor').innerText = CUSTOM.partnerName;
+
+  // Portrait: use first image if available
+  if(CUSTOM.images && CUSTOM.images.length){ document.getElementById('portraitImg').src = CUSTOM.images[0]; }
+
+  // Fill gallery
+  const grid = document.getElementById('galleryGrid');
+  (CUSTOM.images || []).forEach((src, i) => {
+    const img = document.createElement('img'); img.src = src; img.alt = `memori-${i}`;
+    img.style.cursor = 'pointer'; img.onclick = () => openSlideshow(i);
+    grid.appendChild(img);
+  });
+
+  // Music embed
+  document.getElementById('musicEmbed').src = CUSTOM.musicEmbed;
+
+  // Countdown logic
+  function daysUntil(dateStr){ const t=new Date(dateStr+'T00:00:00'); const n=new Date(); return Math.ceil((t-n)/(1000*60*60*24)); }
+  function refreshCountdown(){ const d=daysUntil(CUSTOM.anniversary); const el=document.getElementById('countdownLarge'); el.innerText = d>=0 ? `H-${d} hari` : `Sudah lewat ${Math.abs(d)} hari`; }
+  refreshCountdown(); setInterval(refreshCountdown, 1000*60*60);
+
+  // Modal slideshow
+  let current = 0;
+  function openSlideshow(start=0){ current = start; renderModal(); document.getElementById('modal').classList.add('open'); }
+  function closeSlideshow(e){ document.getElementById('modal').classList.remove('open'); }
+  function renderModal(){ const c=document.getElementById('modalContent'); c.innerHTML=''; const img=document.createElement('img'); img.src = CUSTOM.images[current]; img.style.width='100%'; img.style.borderRadius='12px'; img.style.maxHeight='70vh'; img.style.objectFit='cover'; c.appendChild(img); }
+  function prevSlide(){ current = (current-1+CUSTOM.images.length)%CUSTOM.images.length; renderModal(); }
+  function nextSlide(){ current = (current+1)%CUSTOM.images.length; renderModal(); }
+
+  // Letter modal (simple overlay)
+  function openLetter(){ const text = document.getElementById('miniLetter').innerText + '\n\nDengan cinta,\n' + CUSTOM.yourName; alert(text); }
+
+  // utilities
+  function copyLink(){ navigator.clipboard.writeText(window.location.href).then(()=>alert('Tautan disalin!')); }
+  function copyLetter(){ navigator.clipboard.writeText(document.getElementById('miniLetter').innerText).then(()=>alert('Pesan disalin!')); }
+  function downloadCard(){ const content = `Untuk ${CUSTOM.partnerName}\n\n` + document.getElementById('miniLetter').innerText + `\n\nDengan cinta,\n${CUSTOM.yourName}`; const blob=new Blob([content],{type:'text/plain'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='kartu-cinta.txt'; a.click(); URL.revokeObjectURL(url); }
+
+  // Small tasteful confetti on load (gentle)
+  window.addEventListener('load', ()=>{
+    for(let i=0;i<12;i++){ const p=document.createElement('div'); p.style.position='fixed'; p.style.left=(10+Math.random()*80)+'%'; p.style.top=(70+Math.random()*20)+'%'; p.style.width='8px'; p.style.height='8px'; p.style.background=['#f06292','#ffd28a','#d6b25e'][i%3]; p.style.borderRadius='2px'; p.style.opacity='0.9'; p.style.transform='translateY(0)'; p.style.transition='transform 2s ease, opacity 2s ease'; document.body.appendChild(p); setTimeout(()=>{ p.style.transform='translateY(-180vh) rotate(45deg)'; p.style.opacity='0'; setTimeout(()=>p.remove(),2300); }, 80*i);
+    }
+  });
+
+</script>
+</body>
+</html>
